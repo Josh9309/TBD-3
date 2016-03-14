@@ -17,6 +17,10 @@
 # Unity3D generated meta files
 *.pidb.meta
 
+#Ignore Unity artifacts
+Library
+Temp
+
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
 
