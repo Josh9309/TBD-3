@@ -6,11 +6,23 @@ public class Robit_Player : MonoBehaviour {
     [System.Serializable] //allows variables to be seen in constructor
     public class MoveSettings
     {
-        //Variables
+        //movement Variables
         public float moveSpeed = 5.0f;
         public float jumpPower = 2.0f;
         public float distToGrounded = 0.5f; // distance from origin to ground
+        private float jumpMax;
+        internal bool jumpingUp = false; // tells whether play is still jumping up to max jump height
         public LayerMask ground;
+
+        //properities 
+        public float JumpMax
+        {
+            get { return jumpMax; }
+            set
+            {
+                jumpMax = value;
+            }
+        }
     }
 
     [System.Serializable]
@@ -19,11 +31,13 @@ public class Robit_Player : MonoBehaviour {
         //physics variables
         public float downGrav = 0.075f;
         public bool grounded;
+        public float upGrav = 0.075f;
     }
 
     [System.Serializable]
     public class InputSettings
     {
+        //Input variables
         public float delay = 0.3f;
         public float fwdInput, jumpInput;
         public string JUMP_AXIS = "Jump";
@@ -110,7 +124,9 @@ public class Robit_Player : MonoBehaviour {
     {
         if(input.jumpInput > 0 && isGrounded())
         {
-            velocity.y = move.jumpPower;
+            move.JumpMax = transform.position.y + move.jumpPower;
+            velocity.y = physics.upGrav;
+            move.jumpingUp = true;
         }
         else if(input.jumpInput == 0 && isGrounded())
         {
@@ -118,7 +134,20 @@ public class Robit_Player : MonoBehaviour {
         }
         else
         {
-            velocity.y -= physics.downGrav;
+            if (transform.position.y < move.JumpMax && move.jumpingUp) 
+            {
+                velocity.y += physics.upGrav;
+            }
+            else if(transform.position.y >= move.JumpMax)
+            {
+                move.jumpingUp = false;
+                velocity.y -= physics.downGrav;
+            }
+            else
+            {
+                velocity.y -= physics.downGrav;
+            }
+            
         }
     }
 }
