@@ -57,6 +57,8 @@ public class Robit_Player : MonoBehaviour {
     {
         physics.grounded = Physics.Raycast(transform.position, Vector3.down, move.distToGrounded, move.ground);
         return physics.grounded;
+
+        //return true;
     }
 
     void GetInput()
@@ -102,9 +104,9 @@ public class Robit_Player : MonoBehaviour {
         Jump();
 
         rbody.velocity = transform.TransformDirection(velocity);
-        position += rbody.velocity;
+        rbody.AddForce( rbody.velocity);
 
-        this.transform.position = position;
+        //this.transform.position = position;
     }
 
     void Run()
@@ -149,5 +151,10 @@ public class Robit_Player : MonoBehaviour {
             }
             
         }
+    }
+
+    void OnTriggerEnter(Collider col)
+    {
+        Debug.Log("trigger occured");
     }
 }
