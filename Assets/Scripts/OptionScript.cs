@@ -7,6 +7,8 @@ public class OptionScript : MonoBehaviour {
     public GameObject displayCanvas;
     public GameObject gameCanvas;
     public GameObject optionCanvas;
+    public GameObject creditsCanvas;
+
 	// Use this for initialization
 	void Start () {
 
@@ -41,5 +43,13 @@ public class OptionScript : MonoBehaviour {
         gameCanvas.SetActive(false);
         displayCanvas.SetActive(false);
         audioCanvas.SetActive(false);
+        creditsCanvas.SetActive(false);
     }
+
+    public void SwitchCredits()
+    {
+        optionCanvas.SetActive(false);
+        creditsCanvas.SetActive(true);
+    }
+
 }
