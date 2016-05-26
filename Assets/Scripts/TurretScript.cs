@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class TurretScript : MonoBehaviour {
 
@@ -7,20 +8,29 @@ public class TurretScript : MonoBehaviour {
     public GameObject robit;
     public GameObject gun;
     public GameObject barrel;
+    public GameObject bullet;
 
     internal float rotSpeed; //rotation speed
-
+    public float bulletSpeed;
+    internal float ammo;
 	// Use this for initialization
 	void Start () {
         rotSpeed = 1f;
+        bulletSpeed = 130f;
+        ammo = 5;
 	}
 	
 	// Update is called once per frame
 	void Update () {
         checkRobitPos();
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Fire();
+        }
 	}
 
-    void checkRobitPos()
+    private void checkRobitPos()
     {
         ////Checks to determine if it should rotate left or right
         //if(robit.transform.position.x < this.transform.position.x) //Robit is to the left of the Turret
@@ -78,8 +88,32 @@ public class TurretScript : MonoBehaviour {
         //Quaternion gunQuatTar = Quaternion.LookRotation(gunTar);
         //gun.transform.localRotation = Quaternion.RotateTowards(gun.transform.localRotation, gunQuatTar, rotSpeed);
 
+    }
 
+    private void Fire()
+    {
+        Debug.Log("Ammo: " + ammo);
+        if(ammo == 0)
+        {
+            Debug.Log("Reloading");
+            StartCoroutine(Reload());
+            Debug.Log("Reloaded");
+        }
 
+        if (ammo > 0)
+        {
+            Rigidbody bulletClone;
+            GameObject clone = Instantiate(bullet, barrel.transform.position, barrel.transform.rotation) as GameObject;
+            bulletClone = clone.GetComponent<Rigidbody>();
+            bulletClone.AddForce(barrel.transform.forward * bulletSpeed);
+            ammo--;
+        }
+        
+    }
 
+    private IEnumerator Reload()
+    {
+        yield return new WaitForSeconds(2);
+        ammo = 5;
     }
 }

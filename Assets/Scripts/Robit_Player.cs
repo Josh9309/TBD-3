@@ -51,7 +51,10 @@ public class Robit_Player : MonoBehaviour {
     Vector3 velocity = Vector3.zero;
     Vector3 position = Vector3.zero;
     Rigidbody rbody;
-    
+
+    public float health = 1000; //Robits Health
+
+
     //Methods 
     bool isGrounded()
     {
