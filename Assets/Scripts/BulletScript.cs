@@ -28,11 +28,24 @@ public class BulletScript : MonoBehaviour {
         }
     }
 
-    void OnCollisionEnter(Collision collisionInfo)
+    //Changing to a trigger collision
+    //void OnCollisionEnter(Collision collisionInfo)
+    //{
+    //    GameObject robit = GameObject.Find("Robit");
+    //    robit.GetComponent<Robit_Player>().health -= bulletDam;
+    //    print("Detected collison between " + gameObject.name + " and " + collisionInfo.collider.name);
+    //    Destroy(gameObject);
+    //}
+
+    void OnTriggerEnter(Collider other)
     {
-        GameObject robit = GameObject.Find("Robit");
-        robit.GetComponent<Robit_Player>().health -= bulletDam;
-        print("Detected collison between " + gameObject.name + " and " + collisionInfo.collider.name);
+        if(other.tag == "Player")
+        {
+            GameObject robit = GameObject.Find("Robit");
+            robit.GetComponent<Robit_Player>().health -= bulletDam;
+            print("Robit was hit; Current Health: " + robit.GetComponent<Robit_Player>().health);
+        }
+        print("Detected collison between " + gameObject.name + " and " + other.name);
         Destroy(gameObject);
     }
 }

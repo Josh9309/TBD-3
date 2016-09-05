@@ -87,7 +87,7 @@ public class Robit_Player : MonoBehaviour {
 	void Update ()
     {
         GetInput();
-
+        CheckHealth(); //check to see if robit is alive
         //get amount of distance to move fowards or backwards
         //float fwd =  input.fwdInput * move.moveSpeed * Time.deltaTime;
 
@@ -156,6 +156,15 @@ public class Robit_Player : MonoBehaviour {
         }
     }
 
+    void CheckHealth()
+    {
+        if(health <= 0)
+        {
+            Destroy(gameObject);
+            print("Robit Has Died");
+            Application.LoadLevel("Main_Menu_Scene"); //temp Way of ending game TO BE REPLACED
+        }
+    }
     void OnTriggerEnter(Collider col)
     {
         Debug.Log("trigger occured");
